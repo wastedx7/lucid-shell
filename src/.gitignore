@@ -1,0 +1,23 @@
+# Compiled binaries
+shell
+*.exe
+
+# Object files
+*.o
+*.obj
+
+# Backup files
+*~
+*.swp
+*.tmp
+
+# IDE/editor files
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs
+*.log
+
+# MacOS specific
+.DS_Store
