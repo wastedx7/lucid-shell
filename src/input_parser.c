@@ -22,7 +22,19 @@ char** input_parser(char* input)
         }
         
         tokens[position] = malloc((token_length + 1) * sizeof(char));
-    }
 
+        if(!tokens[position]){
+            perror("Malloc");
+            exit(EXIT_FAILURE);
+        }
+
+        for(size_t j=0; j < token_length; j++){
+            tokens[position][j] = token[j];
+        }
+        tokens[position][token_length] = '\0'; // null terminator token
+        position++;
+        token_length = 0; //reset for next token 
+    }
+    tokens[position] = NULL; // terminate the array with null
     return tokens;
 }

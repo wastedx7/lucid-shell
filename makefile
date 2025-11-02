@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude
 
 # Source files
-SRC = src/main.c 
+SRC = src/main.c src/input_parser.c 
 
 # Object files
 OBJ = $(SRC:.c=.o)

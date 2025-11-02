@@ -25,6 +25,10 @@ void shell_loop(char** env){
         //printf("input: %s", input);
         
         args = input_parser(input);
+        for(size_t i=0; args[i]; i++){
+            printf("Args: %s", args[i]);
+            printf("\n");
+        }
     }
 }
 
