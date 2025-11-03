@@ -1,13 +1,20 @@
 #include "my_shell.h"
 
-
-// shell loop
-// input parser
+//shell loop
+//input parser
 //command execution
 //handle built in commands
 //environment variables
 //manage path
 //error handling
+
+//cd, pwd, echo, setenv, unsetenv, which, exit
+int shell_built(char** args, char** env, char* initial_directory){
+    if(strcmp = "cd"){
+        command_cd();
+    }
+}
+
 
 void shell_loop(char** env){
 
@@ -15,6 +22,7 @@ void shell_loop(char** env){
     size_t input_size = 0;
 
     char** args;
+    char* initial_directory = getcwd(NULL, 0);
     while (1){
         printf("[lucid_shell]> ");
         if (getline(&input, &input_size, stdin) == -1) // means end of file (EOF), CTRL + D
@@ -22,14 +30,19 @@ void shell_loop(char** env){
             perror("getline");
             break;
         }
-        //printf("input: %s", input);
+        // printf("input: %s", input);
         
         args = input_parser(input);
-        for(size_t i=0; args[i]; i++){
-            printf("Args: %s", args[i]);
-            printf("\n");
+        // for(size_t i=0; args[i]; i++){
+        //     printf("Args: %s", args[i]);
+        //     printf("\n");
+        // }
+        if (!args[0]){
+            shell_built(args, env, initial_directory); 
         }
     }
+    free_tokens(args);
+
 }
 
 int main(int argc, char** argv, char** env){
@@ -39,3 +52,4 @@ int main(int argc, char** argv, char** env){
     shell_loop(env);
     return 0;
 }
+

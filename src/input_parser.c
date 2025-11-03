@@ -14,6 +14,7 @@ char** input_parser(char* input)
         exit(EXIT_FAILURE);
     }
 
+    //loop through each character in the input string
     for(size_t i=0; input[i]; i++){
         token = &input[i];
         while(input[i] && input[i] != ' '){
@@ -37,4 +38,16 @@ char** input_parser(char* input)
     }
     tokens[position] = NULL; // terminate the array with null
     return tokens;
+}
+
+//Free allocated tokens 
+void free_tokens(char** tokens){
+    if(!tokens)
+        return;
+
+    for(size_t i=0; tokens[i]; i++){
+        free(tokens[i]); //free each token
+    }
+
+    free(tokens); //free token array 
 }
