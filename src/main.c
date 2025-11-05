@@ -15,8 +15,7 @@ int shell_built(char** args, char** env, char* initial_directory){
     (void)initial_directory;
 
     if(my_strcmp(args[0], "cd") == 0){
-        printf("CD\n");
-        // return command_cd(args, initial_directory);
+        return command_cd(args, initial_directory);
     }
     else if(my_strcmp(args[0], "pwd") == 0){
         // command_pwd();
@@ -36,8 +35,8 @@ int shell_built(char** args, char** env, char* initial_directory){
     }
     else {
         // not a builtin command
+        // executor(); // -- for Binary commands: ls, cat, grep
     }
-    // exit(EXIT_SUCCESS);
     return 0;
 }
 
