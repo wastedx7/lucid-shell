@@ -15,6 +15,7 @@ int shell_built(char** args, char** env, char* initial_directory){
     (void)initial_directory;
 
     if(my_strcmp(args[0], "cd") == 0){
+        printf("CD\n");
         // return command_cd(args, initial_directory);
     }
     else if(my_strcmp(args[0], "pwd") == 0){
@@ -30,11 +31,13 @@ int shell_built(char** args, char** env, char* initial_directory){
         // command_which(args, env);
     }
     else if(my_strcmp(args[0], "exit") == 0 || my_strcmp(args[0], "quit") == 0){
+        printf("bye bye!\n");
         exit(EXIT_SUCCESS);
     }
     else {
         // not a builtin command
     }
+    // exit(EXIT_SUCCESS);
     return 0;
 }
 
