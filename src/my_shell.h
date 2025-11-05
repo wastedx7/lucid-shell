@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <stddef.h>
 
 #define MAX_INPUT 1024
 char** input_parser(char* input);
@@ -17,3 +18,6 @@ int command_which(char** args, char** env);
 
 char** command_setenv(char** args, char** env);
 char** command_unsetenv(char** args, char** env);
+
+//helper 
+int my_strcmp(const char* str1, const char* str2);

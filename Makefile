@@ -2,26 +2,30 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude
 
-# Source files
-SRC = src/main.c src/parser.c src/executor.c src/utils.c
+# Directories
+SRC_DIR = src
+OBJ_DIR = build
 
-# Object files
-OBJ = $(SRC:.c=.o)
-
-# Output binary
+# Files
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 TARGET = shell
 
-# Default build
-all: $(TARGET)
+# Default target
+all: $(OBJ_DIR) $(TARGET)
 
-# Link object files to create the binary
+# Link object files into final executable
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compile each .c to .o
-%.o: %.c
+# Compile each .c into .o inside build/
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+# Make sure build folder exists
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 # Clean build artifacts
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(OBJ_DIR) $(TARGET)
