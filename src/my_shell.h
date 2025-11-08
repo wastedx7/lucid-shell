@@ -5,6 +5,8 @@
 #include <stddef.h>
 
 #define MAX_INPUT 1024
+#define MAX_PATH 4096
+
 char** input_parser(char* input);
 void free_tokens(char** tokens);
 int shell_built(char** args, char** env, char* initial_directory);

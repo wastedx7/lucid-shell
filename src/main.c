@@ -18,10 +18,10 @@ int shell_built(char** args, char** env, char* initial_directory){
         return command_cd(args, initial_directory);
     }
     else if(my_strcmp(args[0], "pwd") == 0){
-        // command_pwd();
+        return command_pwd();
     }
     else if(my_strcmp(args[0], "echo") == 0){
-        // command_echo(args, env);
+        return command_echo(args, env);
     }
     else if(my_strcmp(args[0], "env") == 0){
         // command_env(env);
@@ -48,7 +48,7 @@ void shell_loop(char** env){
     char** args;
     char* initial_directory = getcwd(NULL, 0);
     while (1){
-        printf("[lucid_shell]> ");
+        printf("[lucid-shell]> ");
         if (getline(&input, &input_size, stdin) == -1) // means end of file (EOF), CTRL + D
         {
             perror("getline");
