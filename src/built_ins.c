@@ -26,7 +26,7 @@ int command_pwd(){
 }
 
 int command_echo(char** args, char** env){
-    
+    (void)env;
     int new_line = 1; // default echo ends with newline
     int i = 1; // for skipping newline
 
@@ -37,7 +37,10 @@ int command_echo(char** args, char** env){
 
     for(; args[i]; i++){
         if(args[i][0] == '$') { // to handel env variables
-            (void)env;
+            char* value = getenv(args[i] + 1); // skip $ and fetch the main variable
+            if(value){
+                printf("%s", value);
+            }
         } else {
             printf("%s", args[i]);
         }
