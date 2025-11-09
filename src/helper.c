@@ -20,6 +20,9 @@ int my_strlen(const char* str){
     return len;
 }
 
+// 0: if strings are equal to n characters
+// <0: if str1 < str2 in the first n characters
+// >0 : if str1 > str2 in the first n characters
 int my_strncmp(const char* str1, const char* str2, size_t n){
     size_t i = 0;
     while(i<n && str1[i] && str2[i]){
@@ -41,6 +44,9 @@ char* my_getenv(const char* name, char** env){
     }
     size_t name_len = my_strlen(name);
     for(size_t i; env[i]; i++){
-        if(strncmp)
+        if(my_strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '='){
+            return &env[i][name_len + 1];
+        }
     }
+    return NULL;
 }

@@ -30,7 +30,7 @@ int shell_built(char** args, char** env, char* initial_directory){
         // command_which(args, env);
     }
     else if(my_strcmp(args[0], "exit") == 0 || my_strcmp(args[0], "quit") == 0){
-        printf("bye bye!\n");
+        printf("nikal bkl\n");
         exit(EXIT_SUCCESS);
     }
     else {
