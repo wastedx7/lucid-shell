@@ -54,5 +54,12 @@ int command_echo(char** args, char** env){
     return 0;
 }
 
-// int command_env(char** env){}
+int command_env(char** env){
+    size_t index = 0;
+    while(env[index]){
+        printf("%s\n", env[index]);
+        index++;
+    }
+    return 0;
+}
 // int command_which(char** args, char** env){}
