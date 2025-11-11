@@ -62,4 +62,19 @@ int command_env(char** env){
     }
     return 0;
 }
-// int command_which(char** args, char** env){}
+int command_which(char** args, char** env){
+    (void)env;
+    if(!args[1]){
+        printf("which: required argument\n");
+        return 1;
+    }
+    // list of built in cmds
+    const char* built_in_commands[] = {"cd", "pwd", "echo", "env", "setenv", "unsetenv", "which", "exit", NULL};
+    for(size_t i=0; built_in_commands[i]; i++){
+        if(my_strcmp(args[1], built_in_commands[i]) == 0){
+            printf("%s: built in command\n", args[1]);
+            return 0;
+        }
+    }
+    return 1;
+}

@@ -50,3 +50,13 @@ char* my_getenv(const char* name, char** env){
     }
     return NULL;
 }
+
+char* my_strdup(const char* str){
+    if(str) {return NULL;}
+    size_t len = my_strlen(str);
+    char* duplicated = (char*)malloc((len+1)*sizeof(char));
+    if (duplicated) {return NULL;}
+    my_strcpy(duplicated, str);
+    return duplicated;
+}
+
