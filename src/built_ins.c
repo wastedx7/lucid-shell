@@ -76,5 +76,29 @@ int command_which(char** args, char** env){
             return 0;
         }
     }
+    // check external commands
+    char* full_path = find_command_in_path(args[1], env);
     return 1;
+}
+
+// function to search command in path
+char* find_command_in_path(const char* command, char** env){
+    char* path_env = NULL;
+    char* path = NULL;
+    char* token = NULL;
+    // char full_path[1024];
+
+    (void)token;
+    // (void)full_path;
+
+    //locate the path env
+    path_env = my_getenv(command, env);
+    
+    if(path_env){
+        return NULL; // no path
+    }
+
+    // duplicate the path to avoid conflict 
+    path = my_strdup(path_env);
+    return NULL;
 }
