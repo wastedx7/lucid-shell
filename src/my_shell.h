@@ -28,3 +28,6 @@ int my_strlen(const char* str);
 int my_strncmp(const char* str1, const char* str2, size_t n);
 char* my_strdup(const char* str);
 char* my_strcpy(char* dest, const char* src);
+
+//
+char* find_command_in_path(const char* command, char** env);

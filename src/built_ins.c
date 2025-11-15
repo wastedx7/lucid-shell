@@ -63,7 +63,7 @@ int command_env(char** env){
     return 0;
 }
 int command_which(char** args, char** env){
-    (void)env;
+    
     if(!args[1]){
         printf("which: required argument\n");
         return 1;
@@ -77,7 +77,9 @@ int command_which(char** args, char** env){
         }
     }
     // check external commands
-    char* full_path = find_command_in_path(args[1], env);
+    // char* full_path = 
+    find_command_in_path(args[1], env);
+    
     return 1;
 }
 
@@ -86,15 +88,12 @@ char* find_command_in_path(const char* command, char** env){
     char* path_env = NULL;
     char* path = NULL;
     char* token = NULL;
-    // char full_path[1024];
-
-    (void)token;
-    // (void)full_path;
+    char full_path[1024];
 
     //locate the path env
-    path_env = my_getenv(command, env);
+    path_env = my_getenv("PATH", env);
     
-    if(path_env){
+    if(!path_env){
         return NULL; // no path
     }
 
