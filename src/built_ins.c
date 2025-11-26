@@ -77,27 +77,59 @@ int command_which(char** args, char** env){
         }
     }
     // check external commands
-    // char* full_path = 
-    find_command_in_path(args[1], env);
-    
-    return 1;
+    char* full_path = find_command_in_path(args[1], env);
+    if (full_path){
+        printf("path: %s\n", full_path);
+        free(full_path);
+        return 0;
+    }    
+    else{
+        printf("path not found: %s\n", args[1]);
+        return 1;
+    }
 }
 
 // function to search command in path
 char* find_command_in_path(const char* command, char** env){
-    char* path_env = NULL;
-    char* path = NULL;
-    char* token = NULL;
-    char full_path[1024];
+    char* path_env = NULL; // store the path value
+    char* path = NULL; // duplicate of path
+    char* token = NULL; // tokenise dir from path
+    char full_path[1024]; // buffer to construct full path
 
-    //locate the path env
-    path_env = my_getenv("PATH", env);
-    
+    // locate the path
+    for(size_t i=0; env[i]; i++){
+        if(my_strncmp(env[i], "PATH=", 5) == 0){
+            path_env = env[i] + 5; // skip path= prefixx
+            break;
+        }
+    }
+
     if(!path_env){
         return NULL; // no path
     }
 
-    // duplicate the path to avoid conflict 
     path = my_strdup(path_env);
+    if(!path){
+        perror("my_strdup");
+        return NULL;
+    }
+
+    token = my_strtok(path, ":");
+    while(token){
+        size_t len = my_strlen(token);
+        if(token[len-1] != '/'){
+            snprintf(full_path, sizeof(full_path), "%s%s%s", token, "/", command);
+        } else {
+            snprintf(full_path, sizeof(full_path), "%s%s", token, command);
+        }
+
+        if(access(full_path, X_OK) == 0){
+            free(path);
+            return my_strdup(full_path);
+        }
+        token = my_strtok(NULL, ":");
+    }
+
+    free(path);
     return NULL;
 }

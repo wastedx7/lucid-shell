@@ -52,10 +52,10 @@ char* my_getenv(const char* name, char** env){
 }
 
 char* my_strdup(const char* str){
-    if(!str) {return NULL;}
+    if(str == NULL) {return NULL;}
     size_t len = my_strlen(str);
     char* duplicated = (char*)malloc((len+1)*sizeof(char));
-    if (!duplicated) {return NULL;}
+    if (duplicated == NULL) {return NULL;}
     my_strcpy(duplicated, str);
     return duplicated;
 }
@@ -69,4 +69,50 @@ char* my_strcpy(char* dest, const char* src){
     }
     *dest = '\0';
     return ret;
+}
+
+char* my_strchr(const char* str, char c){
+    while(*str){
+        if(*str == c){
+            return (char*)str;
+        }
+        str++;
+    }
+    return NULL;
+}
+
+char* my_strtok(char* input_string, const char* delimiter){
+    static char* next_token = NULL;
+
+    // If input is NULL
+    if (input_string == NULL) {
+        input_string = next_token;
+    }
+    if (input_string == NULL) {
+        return NULL;
+    }
+
+    while (*input_string && my_strchr(delimiter, *input_string)) {
+        input_string++;
+    }
+
+    if (*input_string == '\0') {
+        next_token = NULL;
+        return NULL;
+    }
+
+    char* token = input_string;
+
+    while (*input_string && !my_strchr(delimiter, *input_string)) {
+        input_string++;
+    }
+
+    if (*input_string) {
+        *input_string = '\0';
+        next_token = input_string + 1;
+    } else {
+        next_token = NULL;
+    }
+
+    return token; 
 }
