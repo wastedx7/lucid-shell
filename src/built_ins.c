@@ -5,7 +5,7 @@ int command_cd(char** args, char* initial_directory){
     if(args[1] == NULL){
         printf("cd: expected path\n");
     } else if(chdir(args[1]) == 0){
-        printf("Trying to cd into %s\n", args[1]);
+        printf("cd success into %s\n", args[1]);
     } else {
         perror("CD");
     }
@@ -132,4 +132,109 @@ char* find_command_in_path(const char* command, char** env){
 
     free(path);
     return NULL;
+}
+// hellper for counting env variables
+int count_env_vars(char** env){
+    int count = 0;
+    while(env[count]){
+        count++;
+    }
+    return count;
+}
+
+
+// Function to set an environement variable
+char** command_setenv(char** args, char** env)
+{
+    if (args[1] == NULL) {
+        printf("Usage:  setenv VAR=value\nor\tsetenv <variable> <value>\n");
+        return env;
+    }
+    
+    int env_count = count_env_vars(env);
+    char** new_env = malloc((env_count + 2) * sizeof(char*));
+    if(!new_env) {
+        perror("malloc");
+        return env;
+    }
+
+    // Copy existing environment variables
+    for (int i = 0; i < env_count; i++)
+    {
+        new_env[i] = my_strdup(env[i]);
+        if (!new_env[i]) {
+            perror("strdup");
+            for (int j = 0; j < i; j++) {
+                free(new_env[j]);
+            }
+            free(new_env);
+            return env;            
+        }
+    }
+
+    // Determine the format of the uinput and create the new variable
+    char* new_var = NULL;
+    if(args[2] == NULL) {  // Format Var=value
+        new_var = my_strdup(args[1]);
+    } else {
+        new_var = malloc(my_strlen(args[1]) + my_strlen(args[2]) + 2);
+        if (new_var) {
+            sprintf(new_var, "%s=%s", args[1], args[2]);
+        }
+    }
+
+    if(!new_var) {
+        perror("malloc");
+        for (int i = 0; i < env_count; i++) {
+            free(new_env[i]);
+        }
+        free(new_env);
+        return env;
+    }
+
+    new_env[env_count] = new_var;
+    new_env[env_count  + 1] = NULL;
+
+    // Free the old env array
+    // for (size_t i = 0; env[i]; i++) {
+    //     free(env[i]);
+    // }
+    // free(env);  
+
+    return new_env;
+}
+
+// Function to unset environment variables
+char** command_unsetenv(char** args, char** env){
+    if (!args[1]) {
+        printf("Usage: unsetenv <variable>\n");
+        return env;
+    }
+
+    int env_count = count_env_vars(env);
+    char** new_env = malloc(env_count * sizeof(char*));
+    if(!new_env) {
+        perror("malloc");
+        return env;
+    }
+
+    int j = 0, found = 0;
+    for (int i = 0; i < env_count; i++) { // var=123
+        if (my_strncmp(env[i], args[1], my_strlen(args[1])) == 0 && env[i][my_strlen(args[1])] == '=') {
+            found = 1;
+            free(env[i]); // Free the matching variable
+        } else {
+            new_env[j++] = env[i];
+        }
+    }
+
+    if (!found) {
+        printf("Variable %s not found in environment\n", args[1]);
+        free(new_env);
+        return env;
+    }
+
+    new_env[j] = NULL;
+    // free(env);
+    return new_env;
 }

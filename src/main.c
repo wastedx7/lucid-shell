@@ -8,6 +8,19 @@
 //manage path
 //error handling
 
+void display_help() {
+    printf("Available commands:\n");
+    printf("\tcd <directory>      - Change the current directory.\n");
+    printf("\tpwd                 - Print the current working directory.\n");
+    printf("\techo <text>         - Print the given text.\n");
+    printf("\tenv                 - Display all environment variables.\n");
+    printf("\tsetenv VAR=value    - Set an environment variable.\n");
+    printf("\tunsetenv <variable> - Remove an environment variable.\n");
+    printf("\twhich <command>     - Locate an executable in the system's PATH.\n");
+    printf("\t.help               - Display this help message.\n");
+    printf("\texit or quit        - Exit the shell.\n");
+}
+
 //cd, pwd, echo, env, setenv, unsetenv, which, exit
 int shell_built(char** args, char** env, char* initial_directory){
 
@@ -26,13 +39,16 @@ int shell_built(char** args, char** env, char* initial_directory){
     else if(my_strcmp(args[0], "which") == 0){
         return command_which(args, env);
     }
+    else if(my_strcmp(args[0], ".help") == 0){
+        display_help();
+        return 0;
+    }
     else if(my_strcmp(args[0], "exit") == 0 || my_strcmp(args[0], "quit") == 0){
-        printf("nikal bkl\n");
+        printf("exit successful\n");
         exit(EXIT_SUCCESS);
     }
     else {
-        // not a builtin command
-        // executor(); // -- for Binary commands: ls, cat, grep
+        return executor(args, env); // -- for Binary commands: ls, cat, grep
     }
     return 0;
 }
@@ -58,12 +74,19 @@ void shell_loop(char** env){
         //     printf("Args: %s", args[i]);
         //     printf("\n");
         // }
-        if (args[0]){
+
+        if(!args[0]){
+            return;
+        } else if(my_strcmp(args[0], "setenv") == 0){
+            env = command_setenv(args, env);
+        } else if(my_strcmp(args[0], "unsetenv") == 0){
+            env = command_unsetenv(args, env);
+        } else {
             shell_built(args, env, initial_directory); 
         }
     }
     free_tokens(args);
-
+    free(env);
 }
 
 int main(int argc, char** argv, char** env){
