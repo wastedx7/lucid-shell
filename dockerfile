@@ -1,5 +1,5 @@
 #base image for c
-FROM ggc:latest
+FROM gcc:latest
 # setting up working dir
 WORKDIR /app
 #copyin everthin
