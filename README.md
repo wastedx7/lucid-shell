@@ -66,7 +66,7 @@ To start the shell, run the compiled executable from your project directory:
 Build the Docker image:
 
 ```bash
-docker build -it lucid-shell .
+docker build -t lucid-shell .
 ```
 
 ### Docker Run
