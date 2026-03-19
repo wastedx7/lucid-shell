@@ -41,25 +41,43 @@ Supports built-in commands, environment variables, PATH searching, parsing, and 
 &emsp;├── builtins.c<br>
 &emsp;├── executor.c<br>
 &emsp;├── helper.c<br>
-&emsp;└── myshell.h<br>
+&emsp;├── myshell.h<br>
+&emsp;└── dockerfile<br>
 
 ---
 
-## 🛠️ Build Instructions
+## 🛠️ Build & Run Instructions
 
-Compile the shell:
+### Local Build
+Compile the shell locally:
 
 ```bash
 make
 ```
-## 🎬 Usage
 
+### Local Run
 To start the shell, run the compiled executable from your project directory:
 
 ```bash
 ./shell
 ```
-## 🛠️ Make Build Clean
+
+### Docker Build
+Build the Docker image:
+
+```bash
+docker build -it lucid-shell .
+```
+
+### Docker Run
+Run the shell in a Docker container:
+
+```bash
+docker run -it lucid-shell
+```
+## 🛠️ Clean Build
+
+Remove build artifacts:
 
 ```bash
 make clean
